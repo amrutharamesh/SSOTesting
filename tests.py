@@ -22,6 +22,7 @@ websites = []
 class Search:
     def __init__(self, path, websites):
         self.exec_path = path
+        self.driver = webdriver.PhantomJS(executable_path=self.exec_path)
         self.websites = websites
         self.fileExceptionList = []
         self.fileLogList = []
@@ -29,24 +30,28 @@ class Search:
         self.begin_search_for_SSO()
 
     def begin_search_for_SSO(self):
-##        for site in self.websites:
-        self.driver = webdriver.PhantomJS(executable_path=self.exec_path)
-        self.driver.set_page_load_timeout(40)
-        self.driver.set_window_size(1400,1000)
-        self.first_url = "https://www.strava.com"
-        self.sso_info = {"url" : self.first_url, "loginSSO" : [], "signupSSO" : []}
-        try:
-            self.driver.get(self.first_url)
-        except TimeoutException as t:
-            return
-        else:
-            first_url_doc = self.parse_web_page()
-            self.process_page_for_click_candidates(first_url_doc, "login")
-            first_click_doc = self.parse_web_page()
-            self.search_for_SSO(first_click_doc, "login")
-##            self.process_page_for_click_candidates(first_click_doc, "sign up")
-##            self.search_for_SSO(self.parse_web_page(), "sign up")
-            self.done()
+        for site in self.websites:
+            self.driver.set_page_load_timeout(40)
+            self.driver.set_window_size(1400,1000)
+            self.first_url = "https://www."+site
+            self.sso_info = {"url" : self.first_url, "loginSSO" : [], "signupSSO" : []}
+            try:
+                self.driver.get(self.first_url)
+            except (TimeoutException, Exception) as t:
+                log_obj = {
+                    "url" : self.first_url,
+                    "reason" : "An exception occurred during first time page load"
+                }
+                self.fileLogList.append(log_obj)
+                continue
+            else:
+                first_url_doc = self.parse_web_page()
+                self.process_page_for_click_candidates(first_url_doc, "login")
+                first_click_doc = self.parse_web_page()
+                self.search_for_SSO(first_click_doc, "login")
+                self.process_page_for_click_candidates(self.parse_web_page(), "signup")
+                self.search_for_SSO(self.parse_web_page(), "signup")
+        self.done()
         self.write_to_file()
 
     def parse_web_page(self):
@@ -58,22 +63,23 @@ class Search:
     def process_page_for_click_candidates(self, document, ptype):
         if ptype == 'login':
             found_elems = document.find_all(["a", "button", "span", "div", "img"], string=['Log In', 'LogIn', 'Login', 'Log in', 'Sign in', 'Sign In', 'Signin', 'SignIn', 'SIGNIN', 'SIGN IN', 'LOGIN', 'LOG IN', 'login', 'log in', 'signin', 'sign in'])
-        elif ptype == 'sign up':
+        elif ptype == 'signup':
             found_elems = document.find_all(["a", "button", "span", "div", "img"], string=['Sign Up', 'Signup', 'SignUp', 'Sign up', 'SIGN UP', 'SIGNUP', 'sign up', 'signup', 'Create account', 'Create Account', 'CREATE ACCOUNT', 'create account'])
-
-        found_url = self.extract_url(found_elems)
         
+        found_url = self.extract_url(found_elems)
+        print found_url
         if(found_url):
             if found_url.startswith("/"):
                 found_url = self.first_url + found_url
             try:
                 self.driver.get(str(found_url))
-            except TimeoutException as t:
+            except (TimeoutException, Exception) as t:
                 log_obj = {
                     "url" : self.first_url,
-                    "reason" : "An exception occurred"
+                    "reason" : "An exception occurred during click candidate process"
                 }
                 self.fileLogList.append(log_obj)
+                return
         else:
             if ptype == 'login':
                 exception_obj = {
@@ -84,8 +90,7 @@ class Search:
                 exception_obj = {
                     "url" : self.first_url,
                     "reason" : "Sign up url extraction failed"
-                }
-                                        
+                }                     
             self.fileExceptionList.append(exception_obj)
             
     def extract_url(self, elems):
@@ -93,6 +98,7 @@ class Search:
             each = elems.pop()
             url = each.get('href')
             if url is not None:
+                print url
                 return url
             else:
                 parent = each.find_parent('a') or each.find_parent('button')
@@ -103,6 +109,7 @@ class Search:
                     if p_url is None:
                         continue
                     else:
+                        print p_url
                         return p_url
 
     def search_for_SSO(self, document, stype):
@@ -149,47 +156,46 @@ class Search:
                 return False
         return True
 
-        
-       
-                
-                    
             
     def check_for_keywords(self, inputstr, stype):
-        sso = ['google', 'yahoo', '500px', 'amazon', 'aol', 'box', 'basecamp', 'battle.net', 'bitbucket', 'bitly',
-               'foursquare', 'cloud foundry', 'dailymotion', 'deviantART', 'discogs', 'dropbox', 'etsy', 'evernote',
-               'facebook', 'fitbit', 'flickr', 'formstack', 'github', 'goodreads', 'google app engine', 'groundspeak',
-               'huddle', 'imgur', 'instagram', 'intel cloud services', 'jive', 'linkedin', 'microsoft', 'mixi', 'myspace',
-               'netflix', 'openlink', 'openstreetmap', 'opentable', 'passport', 'paypal', 'plurk', 'reddit', 'salesforce',
-               'sina weibo', 'stack exchange', 'statusnet', 'strava', 'stripe', 'trello', 'tumblr', 'twitch', 'twitter',
-               'ubuntu one', 'viadeo', 'vimeo', 'vk', 'withings', 'xero', 'xing', 'yammer', 'yandex', 'yelp',
-               'zendesk']
-        k0 = re.compile('oauth', re.I | re.S)
-        k1 = re.compile('openid', re.I | re.S)
-        k2 = re.compile('log[\-\S]?[io]n', re.I | re.S)
-        k3 = re.compile('sign[\-\S]?[io]n', re.I | re.S)
-        k4 = re.compile('sign[\-\S]?up', re.I | re.S)
-        e0 = re.compile('social', re.I | re.S)
-        e1 = re.compile('subscribe', re.I | re.S)
-        e2 = re.compile('connect', re.I | re.S)
-        e3 = re.compile('like', re.I | re.S)
+        sso = [{"site" : 'google', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]}, {"site" : 'yahoo', "url" : ["https://api.login.yahoo.com/oauth2"]}, 
+        {"site" : '500px', "url": ["https://api.500px.com/v1/oauth"]}, {"site" : 'aol', "url" :["https://api.screenname.aol.com/auth"]}, 
+        {"site" : 'twitter', "url" : ["https://api.twitter.com/oauth"]}, {"site" : 'vk', "url" : ["https://oauth.vk.com/authorize"]}, 
+        {"site" : 'yammer', "url" : ["https://www.yammer.com/oauth2/authorize"]}, {"site" : 'yandex', "url" : ["https://oauth.yandex.com/authorize"]},
+        {"site" : 'zendesk', "url" : [".zendesk.com/oauth/tokens"]}, {'amazon'},
+        {"site" : 'flickr', "url" : ["https://www.flickr.com/services/oauth"]}, {"site" : 'bitbucket', "url" : ["https://bitbucket.org/site/oauth2", "https://bitbucket.org/api/1.0/oauth"]}, {"site" : 'bitly', "url" : ["https://bitly.com/oauth"]}, 
+        {"site" : 'cloud foundry', "url" : ["/uaa/oauth"]}, {"site" : 'dailymotion', "url" : ["https://www.dailymotion.com/oauth"]}, 
+        {"site" : 'deviantART', "url" : ["https://www.deviantart.com/oauth2"]}, {"site" : 'discogs', "url" : ["https://api.discogs.com/oauth"]}, 
+        {"site" : 'huddle', "url" : ["https://login.huddle.net/request"]}, 'netflix', 'openlink', 'openstreetmap', 'opentable', 'passport', 'paypal', 
+        'plurk', 'sina weibo', 'stack exchange', 'statusnet', 'ubuntu one', 'viadeo', 'vimeo', 
+        'withings', 'xero', 'xing', {"site" : 'goodreads', "url" : ["http://www.goodreads.com/oauth"]}, {"site" : 'google app engine', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]},
+        {"site" : 'groundspeak', "url" : []}, 'intel cloud services', 
+        'jive', 'trello', 'tumblr', 'microsoft', 'mixi', 'myspace', {"site" : 'etsy', "url" : ["https://www.etsy.com/oauth"]}, {"site" : 'evernote', "url" : ["https://sandbox.evernote.com/OAuth.action"]},  
+        'yelp',  {"site" : 'facebook', "url" : ["fb-login-button"]},
+        {"site" : "dropbox", "url" : ["https://www.dropbox.com/1/oauth2", "https://www.dropbox.com/1/oauth"]}]
+        k0 = re.compile('oauth', re.I)
+        k1 = re.compile('openid', re.I)
+        k2 = re.compile('log[\-\S]?[io]n', re.I)
+        k3 = re.compile('sign[\-\S]?[io]n', re.I)
+        k4 = re.compile('sign[\-\S]?up', re.I)
+        e0 = re.compile('social', re.I)
+        e1 = re.compile('subscribe', re.I)
+        e2 = re.compile('connect', re.I)
+        e3 = re.compile('like', re.I)
 
         for each in sso:
             compiled = re.compile(each, re.I | re.S)
             if compiled.search(inputstr) is not None:
                 if k0.search(inputstr) is not None or k1.search(inputstr) is not None:
                     if stype == 'login':
-                            if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
-                                    self.sso_info["loginSSO"].append(each)
-                                    print "2"
-                            else:
-                                print "3"
+                        if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
+                            if each not in self.sso_info["loginSSO"]:
+                                self.sso_info["loginSSO"].append(each)
+                                print "2"
                     elif stype == 'signup':
                         if k4.search(inputstr) is not None:
-                            print "4"
-                            self.sso_info["signupSSO"].append(each)
-                        else:
-                            print "5"
-                        
+                            if each not in self.sso_info["signupSSO"]:
+                                self.sso_info["signupSSO"].append(each)
                 else:
                     if e0.search(inputstr) is not None or e1.search(inputstr) is not None or e2.search(inputstr) is not None or e3.search(inputstr) is not None:
                         print "6"

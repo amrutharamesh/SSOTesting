@@ -1,1 +1,1 @@
-[{"url": "https://www.strava.com", "signupSSO": [], "loginSSO": ["facebook", "strava", "facebook", "strava", "google", "strava", "google", "strava"]}]
+[{"url": "https://www.yahoo.com", "signupSSO": [], "loginSSO": ["yahoo"]}]
