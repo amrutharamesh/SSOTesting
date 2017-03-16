@@ -156,26 +156,43 @@ class Search:
             
     def check_for_keywords(self, inputstr, stype):
         sso = ['google', 'yahoo', '500px', 'amazon', 'aol', 'box', 'basecamp', 'battle.net', 'bitbucket', 'bitly',
-               'foursquare', 'cloud foundry', 'dailymotion', 'deviantART', 'discogs', 'dropbox', '/etsy/gi', '/evernote/gi',
-               '/facebook/gi', '/fitbit/gi', '/flickr/gi', '/formstack/gi', '/github/gi', '/goodreads/gi', '/google app engine/gi', '/groundspeak/gi',
-               '/huddle/gi', '/imgur/gi', '/instagram/gi', '/intel cloud services/gi', '/jive/gi', '/linkedin/gi', '/microsoft/gi', '/mixi/gi', '/myspace/gi',
-               '/netflix/gi', '/openlink/gi', '/openstreetmap/gi', '/opentable/gi', '/passport/gi', '/paypal/gi', '/plurk/gi', '/reddit/gi', '/salesforce/gi',
-               '/sina weibo/gi', '/stack exchange/gi', '/statusnet/gi', '/strava/gi', '/stripe/gi', '/trello/gi', '/tumblr/gi', '/twitch/gi', '/twitter/gi',
-               '/ubuntu one/gi', '/viadeo/gi', '/vimeo/gi', '/vk/gi', '/withings/gi', '/xero/gi', '/xing/gi', '/yammer/gi', '/yandex/gi', '/yelp/gi',
-               '/zendesk/gi']
-        elimination = [{0 : re.compile('/social/gi')}, {1 : re.compile('/subscribe/gi')}, {2 : re.compile('/connect/gi')}, {3 : re.compile('/like/gi')}]
-        keywords = [{0 : re.compile('/oauth/gi')}, {1 : re.compile('/openid/gi')}, {2: re.compile('/log[-\s_]?[io]n/gi')}, {3: re.compile('/sign[-\s_]?[io]n/gi')}, {4: re.compile('/sign[-\s_]?up/gi')}]
+               'foursquare', 'cloud foundry', 'dailymotion', 'deviantART', 'discogs', 'dropbox', 'etsy', 'evernote',
+               'facebook', 'fitbit', 'flickr', 'formstack', 'github', 'goodreads', 'google app engine', 'groundspeak',
+               'huddle', 'imgur', 'instagram', 'intel cloud services', 'jive', 'linkedin', 'microsoft', 'mixi', 'myspace',
+               'netflix', 'openlink', 'openstreetmap', 'opentable', 'passport', 'paypal', 'plurk', 'reddit', 'salesforce',
+               'sina weibo', 'stack exchange', 'statusnet', 'strava', 'stripe', 'trello', 'tumblr', 'twitch', 'twitter',
+               'ubuntu one', 'viadeo', 'vimeo', 'vk', 'withings', 'xero', 'xing', 'yammer', 'yandex', 'yelp',
+               'zendesk']
+        k0 = re.compile('oauth', re.I | re.S)
+        k1 = re.compile('openid', re.I | re.S)
+        k2 = re.compile('log[\-\S]?[io]n', re.I | re.S)
+        k3 = re.compile('sign[\-\S]?[io]n', re.I | re.S)
+        k4 = re.compile('sign[\-\S]?up', re.I | re.S)
+        e0 = re.compile('social', re.I | re.S)
+        e1 = re.compile('subscribe', re.I | re.S)
+        e2 = re.compile('connect', re.I | re.S)
+        e3 = re.compile('like', re.I | re.S)
 
-        compiled = re.compile('google', re.I | re.S)
-        print compiled.search(stroo)
-
-        # for each in sso:
-        #     print inputstr
-        #     print each
-        #     compiled = re.compile(each)
-        #     print compiled.search(inputstr)
+        for each in sso:
+            compiled = re.compile(each, re.I | re.S)
+            if compiled.search(inputstr) is not None:
+                if k0.search(inputstr) is not None or k1.search(inputstr) is not None:
+                    if stype == 'login':
+                            if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
+                                    self.sso_info["loginSSO"].append(each)
+                                    print "2"
+                            else:
+                                print "3"
+                    elif stype == 'signup':
+                        if k4.search(inputstr) is not None:
+                            print "4"
+                            self.sso_info["signupSSO"].append(each)
+                        else:
+                            print "5"
                         
-                
+                else:
+                    if e0.search(inputstr) is not None or e1.search(inputstr) is not None or e2.search(inputstr) is not None or e3.search(inputstr) is not None:
+                        print "6"
 
     def write_to_file(self):
         self.candidates.append(self.sso_info)
@@ -308,7 +325,7 @@ search = Search(path, websites)
 ##               '/netflix/gi', '/openlink/gi', '/openstreetmap/gi', '/opentable/gi', '/passport/gi', '/paypal/gi', '/plurk/gi', '/reddit/gi', '/salesforce/gi',
 ##               '/sina weibo/gi', '/stack exchange/gi', '/statusnet/gi', '/strava/gi', '/stripe/gi', '/trello/gi', '/tumblr/gi', '/twitch/gi', '/twitter/gi',
 ##               '/ubuntu one/gi', '/viadeo/gi', '/vimeo/gi', '/vk/gi', '/withings/gi', '/xero/gi', '/xing/gi', '/yammer/gi', '/yandex/gi', '/yelp/gi',
-##               '/zendesk/gi']
+##               '/zendesk`/gi']
 ##
 ##
 ##
