@@ -158,7 +158,7 @@ class Search:
 
             
     def check_for_keywords(self, inputstr, stype):
-        sso = [{"site" : 'google', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]}, {"site" : 'yahoo', "url" : ["https://api.login.yahoo.com/oauth2"]}, 
+        sso = [{"site" : 'google', "url" : ["https://accounts.google.com/o/oauth2"]}, {"site" : 'yahoo', "url" : ["https://api.login.yahoo.com/oauth2"]}, 
         {"site" : '500px', "url": ["https://api.500px.com/v1/oauth"]}, {"site" : 'aol', "url" :["https://api.screenname.aol.com/auth"]}, 
         {"site" : 'twitter', "url" : ["https://api.twitter.com/oauth"]}, {"site" : 'vk', "url" : ["https://oauth.vk.com/authorize"]}, 
         {"site" : 'yammer', "url" : ["https://www.yammer.com/oauth2/authorize"]}, {"site" : 'yandex', "url" : ["https://oauth.yandex.com/authorize"]},
