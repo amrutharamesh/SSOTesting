@@ -1,0 +1,61 @@
+Metadata-Version: 1.1
+Name: wait-for
+Version: 1.0.9
+Summary: A waiting based utility with decorator and logger support
+Home-page: UNKNOWN
+Author: Peter Savage
+Author-email: psavage@redhat.com
+License: Apache
+Description: wait-for
+        ========
+        
+        Introduction
+        ------------
+        
+        Waits for a certain amount of time for an action to complete
+        Designed to wait for a certain length of time,
+        either linearly in 1 second steps, or exponentially, up to a maximum.
+        Returns the output from the function once it completes successfully,
+        along with the time taken to complete the command.
+        
+        .. note::
+           If using the expo keyword, the returned elapsed time will be inaccurate
+           as wait_for does not know the exact time that the function returned
+           correctly, only that it returned correctly at last check.
+        
+        Usage
+        -----
+        
+        .. code-block:: python
+        
+          from wait_for import wait_for
+        
+          class Incrementor():
+              value = 0
+        
+              def i_sleep_a_lot(self):
+                  time.sleep(.1)
+                  self.value += 1
+                  return self.value
+        
+        
+          incman = Incrementor()
+          ec, tc = wait_for(incman.i_sleep_a_lot,
+                            fail_condition=0,
+                            delay=.05)
+          print("Function output {} in time {} ".format(ec, tc))
+        
+        
+Keywords: setup
+distutils
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Topic :: Utilities

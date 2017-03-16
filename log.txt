@@ -1,0 +1,1 @@
+[{"url": "https://www.strava.com", "signupSSO": [], "loginSSO": []}]

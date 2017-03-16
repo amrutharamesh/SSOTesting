@@ -1,0 +1,54 @@
+CHANGES
+=======
+
+1.0.9
+-----
+
+* move wait_for parameter parsing to own functions (#8)
+
+1.0.8
+-----
+
+* Updating compatibility
+
+1.0.6
+-----
+
+* Added a very_quiet= keyword param (#7)
+
+1.0.5
+-----
+
+* remove the null logger wrapper
+* add gitignore
+* Updated docs
+* Updated docs
+
+1.0.4
+-----
+
+* Fixup the func_name -> __name__
+* Better Python 3 compatibility
+* Added unittests
+
+1.0.3
+-----
+
+* Added Exception handling logging
+
+1.0.2
+-----
+
+* License update
+* Add explicit license
+
+1.0.1
+-----
+
+* Better partial support
+
+1.0.0
+-----
+
+* Initial Import
+* Initial commit

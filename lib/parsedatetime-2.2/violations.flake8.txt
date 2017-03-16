@@ -1,0 +1,5 @@
+parsedatetime/pdt_locales/de_DE.py:59:13: F405 re_values may be undefined, or defined from star imports: .base
+parsedatetime/pdt_locales/en_AU.py:17:1: F405 timeFormats may be undefined, or defined from star imports: .base
+parsedatetime/pdt_locales/en_AU.py:17:23: F405 timeFormats may be undefined, or defined from star imports: .base
+parsedatetime/pdt_locales/nl_NL.py:58:13: F405 re_values may be undefined, or defined from star imports: .base
+parsedatetime/pdt_locales/ru_RU.py:58:13: F405 re_values may be undefined, or defined from star imports: .base
