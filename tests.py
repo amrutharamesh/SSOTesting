@@ -166,13 +166,19 @@ class Search:
         {"site" : 'flickr', "url" : ["https://www.flickr.com/services/oauth"]}, {"site" : 'bitbucket', "url" : ["https://bitbucket.org/site/oauth2", "https://bitbucket.org/api/1.0/oauth"]}, {"site" : 'bitly', "url" : ["https://bitly.com/oauth"]}, 
         {"site" : 'cloud foundry', "url" : ["/uaa/oauth"]}, {"site" : 'dailymotion', "url" : ["https://www.dailymotion.com/oauth"]}, 
         {"site" : 'deviantART', "url" : ["https://www.deviantart.com/oauth2"]}, {"site" : 'discogs', "url" : ["https://api.discogs.com/oauth"]}, 
-        {"site" : 'huddle', "url" : ["https://login.huddle.net/request"]}, 'netflix', 'openlink', 'openstreetmap', 'opentable', 'passport', 'paypal', 
-        'plurk', 'sina weibo', 'stack exchange', 'statusnet', 'ubuntu one', 'viadeo', 'vimeo', 
+        {"site" : 'huddle', "url" : ["https://login.huddle.net/request"]}, {"site" : 'netflix', "url" : ["https://api-user.netflix.com/oauth"]}, 
+        {"site" : 'openlink data spaces', "url" : ["/OAuth"]}, {"site" : 'openstreetmap', "url" : ["http://www.openstreetmap.org/oauth"]}, 
+        {"site" : 'opentable', "url" : ["http://www.opentable.com/oauth"]}, {"site" : 'passport', "url" : ["/dialog/authorize", "oauth2/authorize", "oauth/authorize"]},
+        {"site" : 'paypal', "url" : ["paypal.com/v1/oauth2"]}, 
+        {"site" : 'plurk', "url" : ["https://www.plurk.com/OAuth/authorize"]}, {"site" : 'sina weibo', "url" : ["http://api.t.sina.com.cn/oauth/authorize"]},
+        {"site" : 'stack exchange', "url" : ["https://stackexchange.com/oauth"]}, {"site" : 'statusnet', "url" : ["status.net/api/oauth/authorize"]}, 'ubuntu one', 'viadeo', 'vimeo', 
         'withings', 'xero', 'xing', {"site" : 'goodreads', "url" : ["http://www.goodreads.com/oauth"]}, {"site" : 'google app engine', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]},
         {"site" : 'groundspeak', "url" : []}, 'intel cloud services', 
-        'jive', 'trello', 'tumblr', 'microsoft', 'mixi', 'myspace', {"site" : 'etsy', "url" : ["https://www.etsy.com/oauth"]}, {"site" : 'evernote', "url" : ["https://sandbox.evernote.com/OAuth.action"]},  
+        {"site" : 'jive', "url" : "jiveon.com/oauth2"}, {"site" : "linkedin", "url" : "https://www.linkedin.com/oauth/v2"}, {"site" : 'trello', "url" : ["https://trello.com/1/OAuthAuthorizeToken", "https://trello.com/1/authorize"]}, 
+        {"site" : 'tumblr', "url" : ["https://www.tumblr.com/oauth/authorize"]}, {"site" : 'microsoft', "url" : "https://login.live.com/oauth20"},
+        {"site" : 'mixi', "url" : "api.mixi-platform.com/OAuth"}, {"site" : 'myspace', "url" : "api.myspace.com/authorize"}, {"site" : 'etsy', "url" : ["https://www.etsy.com/oauth"]}, {"site" : 'evernote', "url" : ["https://sandbox.evernote.com/OAuth.action"]},  
         'yelp',  {"site" : 'facebook', "url" : ["fb-login-button"]},
-        {"site" : "dropbox", "url" : ["https://www.dropbox.com/1/oauth2", "https://www.dropbox.com/1/oauth"]}]
+        {"site" : "dropbox", "url" : ["https://www.dropbox.com/1/oauth2", "https://www.dropbox.com/1/oauth"]}, {"site" : "twitch", "url" : ["https://api.twitch.tv/kraken/oauth2/authorize"]}]
         k0 = re.compile('oauth', re.I)
         k1 = re.compile('openid', re.I)
         k2 = re.compile('log[\-\S]?[io]n', re.I)
