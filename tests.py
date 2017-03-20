@@ -158,27 +158,70 @@ class Search:
 
             
     def check_for_keywords(self, inputstr, stype):
-        sso = [{"site" : 'google', "url" : ["https://accounts.google.com/o/oauth2"]}, {"site" : 'yahoo', "url" : ["https://api.login.yahoo.com/oauth2"]}, 
-        {"site" : '500px', "url": ["https://api.500px.com/v1/oauth"]}, {"site" : 'aol', "url" :["https://api.screenname.aol.com/auth"]}, 
-        {"site" : 'twitter', "url" : ["https://api.twitter.com/oauth"]}, {"site" : 'vk', "url" : ["https://oauth.vk.com/authorize"]}, 
-        {"site" : 'yammer', "url" : ["https://www.yammer.com/oauth2/authorize"]}, {"site" : 'yandex', "url" : ["https://oauth.yandex.com/authorize"]},
-        {"site" : 'zendesk', "url" : [".zendesk.com/oauth/tokens"]}, {'amazon'},
-        {"site" : 'flickr', "url" : ["https://www.flickr.com/services/oauth"]}, {"site" : 'bitbucket', "url" : ["https://bitbucket.org/site/oauth2", "https://bitbucket.org/api/1.0/oauth"]}, {"site" : 'bitly', "url" : ["https://bitly.com/oauth"]}, 
-        {"site" : 'cloud foundry', "url" : ["/uaa/oauth"]}, {"site" : 'dailymotion', "url" : ["https://www.dailymotion.com/oauth"]}, 
-        {"site" : 'deviantART', "url" : ["https://www.deviantart.com/oauth2"]}, {"site" : 'discogs', "url" : ["https://api.discogs.com/oauth"]}, 
-        {"site" : 'huddle', "url" : ["https://login.huddle.net/request"]}, {"site" : 'netflix', "url" : ["https://api-user.netflix.com/oauth"]}, 
-        {"site" : 'openlink data spaces', "url" : ["/OAuth"]}, {"site" : 'openstreetmap', "url" : ["http://www.openstreetmap.org/oauth"]}, 
-        {"site" : 'opentable', "url" : ["http://www.opentable.com/oauth"]}, {"site" : 'passport', "url" : ["/dialog/authorize", "oauth2/authorize", "oauth/authorize"]},
+        sso = [{"site" : 'google', "url" : ["https://accounts.google.com/o/oauth2/auth"]}, 
+        {"site" : 'yahoo', "url" : ["https://api.login.yahoo.com/oauth2/request_auth"]}, 
+        {"site" : '500px', "url": ["https://api.500px.com/v1/oauth"]}, 
+        {"site" : 'aol', "url" :["https://api.screenname.aol.com/auth"]}, 
+        {"site" : 'twitter', "url" : ["https://api.twitter.com/oauth"]}, 
+        {"site" : 'vk', "url" : ["https://oauth.vk.com/authorize"]}, 
+        {"site" : 'yammer', "url" : ["https://www.yammer.com/oauth2/authorize"]}, 
+        {"site" : 'yandex', "url" : ["https://oauth.yandex.com/authorize"]},
+        {"site" : 'zendesk', "url" : [".zendesk.com/oauth/authorizations/new"]}, 
+        {"site" : 'amazon', "url" : ["http://g-ecx.images-amazon.com/images/G/01/lwa/btnLWA", "https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA"]},
+        {"site" : 'flickr', "url" : ["https://www.flickr.com/services/oauth"]}, 
+        {"site" : 'bitbucket', "url" : ["https://bitbucket.org/site/oauth2", "https://bitbucket.org/api/1.0/oauth"]}, 
+        {"site" : 'bitly', "url" : ["https://bitly.com/oauth"]}, 
+        {"site" : 'cloud foundry', "url" : ["/uaa/oauth"]}, 
+        {"site" : 'dailymotion', "url" : ["https://www.dailymotion.com/oauth"]}, 
+        {"site" : 'deviantART', "url" : ["https://www.deviantart.com/oauth2"]}, 
+        {"site" : 'discogs', "url" : ["https://api.discogs.com/oauth"]}, 
+        {"site" : 'huddle', "url" : ["https://login.huddle.net/request"]}, 
+        {"site" : 'netflix', "url" : ["https://api-user.netflix.com/oauth"]}, 
+        {"site" : 'openlink data spaces', "url" : ["/OAuth"]}, 
+        {"site" : 'openstreetmap', "url" : ["http://www.openstreetmap.org/oauth"]}, 
+        {"site" : 'opentable', "url" : ["http://www.opentable.com/oauth"]}, 
+        {"site" : 'passport', "url" : ["/dialog/authorize", "oauth2/authorize", "oauth/authorize"]},
         {"site" : 'paypal', "url" : ["paypal.com/v1/oauth2"]}, 
-        {"site" : 'plurk', "url" : ["https://www.plurk.com/OAuth/authorize"]}, {"site" : 'sina weibo', "url" : ["http://api.t.sina.com.cn/oauth/authorize"]},
-        {"site" : 'stack exchange', "url" : ["https://stackexchange.com/oauth"]}, {"site" : 'statusnet', "url" : ["status.net/api/oauth/authorize"]}, 'ubuntu one', 'viadeo', 'vimeo', 
-        'withings', 'xero', 'xing', {"site" : 'goodreads', "url" : ["http://www.goodreads.com/oauth"]}, {"site" : 'google app engine', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]},
-        {"site" : 'groundspeak', "url" : []}, 'intel cloud services', 
-        {"site" : 'jive', "url" : "jiveon.com/oauth2"}, {"site" : "linkedin", "url" : "https://www.linkedin.com/oauth/v2"}, {"site" : 'trello', "url" : ["https://trello.com/1/OAuthAuthorizeToken", "https://trello.com/1/authorize"]}, 
-        {"site" : 'tumblr', "url" : ["https://www.tumblr.com/oauth/authorize"]}, {"site" : 'microsoft', "url" : "https://login.live.com/oauth20"},
-        {"site" : 'mixi', "url" : "api.mixi-platform.com/OAuth"}, {"site" : 'myspace', "url" : "api.myspace.com/authorize"}, {"site" : 'etsy', "url" : ["https://www.etsy.com/oauth"]}, {"site" : 'evernote', "url" : ["https://sandbox.evernote.com/OAuth.action"]},  
-        'yelp',  {"site" : 'facebook', "url" : ["fb-login-button"]},
-        {"site" : "dropbox", "url" : ["https://www.dropbox.com/1/oauth2", "https://www.dropbox.com/1/oauth"]}, {"site" : "twitch", "url" : ["https://api.twitch.tv/kraken/oauth2/authorize"]}]
+        {"site" : 'plurk', "url" : ["https://www.plurk.com/OAuth/authorize"]},
+        {"site" : 'sina weibo', "url" : ["http://api.t.sina.com.cn/oauth/authorize"]},
+        {"site" : 'stack exchange', "url" : ["https://stackexchange.com/oauth"]}, 
+        {"site" : 'statusnet', "url" : ["status.net/api/oauth/authorize"]}, 
+        {"site" : 'ubuntu one', "url" : ["https://login.ubuntu.com/api/1.0/authentications"]},
+        {"site" : 'viadeo', "url" : ["https://partners.viadeo.com/oauth/authorize"]},
+        {"site" : 'vimeo', "url" : ["https://api.vimeo.com/oauth/authorize"]}, 
+        {"site" : 'withings', "url" : ["https://oauth.withings.com/account/authorize"]},
+        {"site" : 'xero', "url" : ["https://api.xero.com/oauth/Authorize"]},
+        {"site" : 'xing', "url" : ["https://api.xing.com/v1/authorize"]}, 
+        {"site" : 'goodreads', "url" : ["http://www.goodreads.com/oauth"]}, 
+        {"site" : 'google app engine', "url" : ["https://accounts.google.com/o/oauth2/v2/auth"]},
+        {"site" : 'groundspeak', "url" : ["groundspeak.com/oauth"]}, 
+        {"site" : 'intel cloud services', "url" : []}, 
+        {"site" : 'jive', "url" : "jiveon.com/oauth2"}, 
+        {"site" : "linkedin", "url" : ["https://www.linkedin.com/oauth/v2/authorization"]}, 
+        {"site" : 'trello', "url" : ["https://trello.com/1/OAuthAuthorizeToken", "https://trello.com/1/authorize"]}, 
+        {"site" : 'tumblr', "url" : ["https://www.tumblr.com/oauth/authorize"]}, 
+        {"site" : 'microsoft', "url" : ["https://login.live.com/oauth20"]},
+        {"site" : 'mixi', "url" : ["api.mixi-platform.com/OAuth"]}, 
+        {"site" : 'myspace', "url" : ["api.myspace.com/authorize"]}, 
+        {"site" : 'etsy', "url" : ["https://www.etsy.com/oauth"]}, 
+        {"site" : 'evernote', "url" : ["https://sandbox.evernote.com/OAuth.action"]},  
+        {"site" : 'yelp', "url" : ["https://api.yelp.com/oauth2"]},  
+        {"site" : 'facebook', "url" : ["fb-login-button"]},
+        {"site" : "dropbox", "url" : ["https://www.dropbox.com/1/oauth2/authorize", "https://www.dropbox.com/1/oauth/authorize"]}, 
+        {"site" : "twitch", "url" : ["https://api.twitch.tv/kraken/oauth2/authorize"]},
+        {"site" : "stripe", "url" : ["https://connect.stripe.com/oauth/authorize"]},
+        {"site" : 'basecamp', "url" : ["https://launchpad.37signals.com/authorization/new"]},
+        {"site" : "box", "url" : ["https://account.box.com/api/oauth2/authorize"]},
+        {"site" : "formstack", "url" : ["https://www.formstack.com/api/v2/oauth2/authorize"]},
+        {"site" : "github", "url" : ["https://github.com/login/oauth/authorize"]},
+        {"site" : "reddit", "url" : ["https://www.reddit.com/api/v1/authorize"]},
+        {"site" : "instagram", "url" : ["https://api.instagram.com/oauth/authorize"]},
+        {"site" : "foursquare", "url" : ["https://foursquare.com/oauth2/authorize"]},
+        {"site" : "fitbit", "url" : ["https://www.fitbit.com/oauth2/authorize"]},
+        {"site" : "imgur", "url" : ["https://api.imgur.com/oauth2/authorize"]},
+        {"site" : "salesforce", "url" : ["https://login.salesforce.com/services/oauth2/authorize"]},
+        {"site" : "strava", "url" : ["https://www.strava.com/oauth/authorize"]},
+        {"site" : "battle.net", "url" : ["https://us.battle.net/oauth/authorize"]}]
         k0 = re.compile('oauth', re.I)
         k1 = re.compile('openid', re.I)
         k2 = re.compile('log[\-\S]?[io]n', re.I)
@@ -189,22 +232,41 @@ class Search:
         e2 = re.compile('connect', re.I)
         e3 = re.compile('like', re.I)
 
+
         for each in sso:
-            compiled = re.compile(each, re.I | re.S)
+            compiled = re.compile(each.site, re.I | re.S)
             if compiled.search(inputstr) is not None:
-                if k0.search(inputstr) is not None or k1.search(inputstr) is not None:
+                if k0.search(inputstr) is not None:
+                    if len(each.url) > 0:
+                        for url in each.url:
+                            c_url = re.compile(url, re.I)
+                            if c_url.search(inputstr) is not None:
+                                if stype == 'login':
+                                    if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
+                                        if each.site not in self.sso_info["loginSSO"]:
+                                            self.sso_info["loginSSO"].append(each)
+                                elif stype == 'signup':
+                                    if k4.search(inputstr) is not None:
+                                        if each.site not in self.sso_info["signupSSO"]:
+                                            self.sso_info["signupSSO"].append(each)
+                    else:
+                        if stype == 'login':
+                            if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
+                                if each.site not in self.sso_info["loginSSO"]:
+                                    self.sso_info["loginSSO"].append(each)
+                        elif stype == 'signup':
+                            if k4.search(inputstr) is not None:
+                                if each.site not in self.sso_info["signupSSO"]:
+                                    self.sso_info["signupSSO"].append(each)
+                elif k1.search(inputstr) is not None:
                     if stype == 'login':
                         if k2.search(inputstr) is not None or k3.search(inputstr) is not None:
-                            if each not in self.sso_info["loginSSO"]:
+                            if each.site not in self.sso_info["loginSSO"]:
                                 self.sso_info["loginSSO"].append(each)
-                                print "2"
                     elif stype == 'signup':
                         if k4.search(inputstr) is not None:
-                            if each not in self.sso_info["signupSSO"]:
+                            if each.site not in self.sso_info["signupSSO"]:
                                 self.sso_info["signupSSO"].append(each)
-                else:
-                    if e0.search(inputstr) is not None or e1.search(inputstr) is not None or e2.search(inputstr) is not None or e3.search(inputstr) is not None:
-                        print "6"
 
     def write_to_file(self):
         self.candidates.append(self.sso_info)
