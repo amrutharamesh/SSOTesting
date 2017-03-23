@@ -1,3 +1,0 @@
-[pytest11]
-wait_for = wait_for
-
